@@ -1,0 +1,325 @@
+{
+  "info": {
+    "_postman_id": "49acf3e4-eca3-4b90-9dee-bb6f638eca1b",
+    "name": "Module_17_Assignment",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54354597",
+    "_collection_link": "https://go.postman.co/collection/54354597-49acf3e4-eca3-4b90-9dee-bb6f638eca1b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Step_1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// testing",
+              "",
+              "pm.test(\"1.1 Status code is 200\", function (){ pm.response.to.have.status(200);",
+              "});",
+              "",
+              "const users = pm.response.json();",
+              "",
+              "",
+              "pm.test(\"1.2 Response body is an array and it is non-empty\", function () { pm.expect(users).to.be.an('array').that.is.not.empty;  ",
+              "});",
+              "",
+              "",
+              "",
+              "",
+              "pm.test(\"1.3 Response contains user information.\", function(){",
+              "    users.forEach(user=>{",
+              "        pm.expect(user).to.include.keys(\"id\", \"name\", \"username\", \"email\", \"address\", \"phone\", \"website\", \"company\");",
+              "        pm.expect(user.address).to.include.keys(\"street\", \"suite\", \"city\", \"zipcode\", \"geo\");",
+              "        pm.expect(user.address.geo).to.include.keys(\"lat\", \"lng\");",
+              "        pm.expect(user.company).to.include.keys(\"name\", \"catchPhrase\", \"bs\"); ",
+              "        })",
+              "});",
+              "",
+              "",
+              "",
+              "",
+              "pm.test(\"1.4 Each post has required fields (id, name and email)\", function () {",
+              "    // const users = pm.response.json();",
+              "    users.forEach(user => {",
+              "        pm.expect(user).to.have.property(\"id\");",
+              "        pm.expect(user).to.have.property(\"name\");",
+              "        pm.expect(user).to.have.property(\"email\");",
+              "    });",
+              "});",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/users",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Step_2",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status Code is 200\", function(){",
+              "    pm.response.to.have.status(200);",
+              "})",
+              "",
+              "",
+              "const users = pm.response.json();",
+              "",
+              "const selected = users[0]",
+              "pm.collectionVariables.set(\"userId\", selected.id);",
+              "pm.collectionVariables.set(\"userData\", JSON.stringify(selected));",
+              "",
+              "pm.test(\"2. From GET response, selected one user's ID and saved it as local variable\", function (){",
+              "    pm.expect(Number(pm.collectionVariables.get(\"userId\"))).to.eql(selected.id);",
+              "});",
+              "",
+              "",
+              "",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/users",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Step_3",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status Code is 200\", function(){",
+              "    pm.response.to.have.status(200);",
+              "})",
+              "",
+              "const res = pm.response.json();",
+              "",
+              "// EXTRA CHECK: confirming the 2 id match",
+              "pm.test(\"Returned ID matches stored ID\", function(){",
+              "    pm.expect(res.id).to.eql(Number(pm.collectionVariables.get(\"userId\")))",
+              "});",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/users/{{userId}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Step_4",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status Code is 200\", function(){",
+              "    pm.response.to.have.status(200);",
+              "})",
+              "",
+              "const res = pm.response.json();",
+              "",
+              "pm.test(\"4.1 Returned ID matches stored ID\", function(){",
+              "    pm.expect(res.id).to.eql(Number(pm.collectionVariables.get(\"userId\")));",
+              "})",
+              "",
+              "pm.test(\"4.2 Phone is not empty\", function(){",
+              "    pm.expect(res.phone).to.be.a(\"string\").and.not.empty;",
+              "});",
+              "",
+              "pm.test(\"4.3 Returned name matches the update name\", function(){",
+              "    pm.expect(res.name).to.eql(pm.collectionVariables.get(\"updatedName\"));",
+              "});",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "const user = JSON.parse(pm.collectionVariables.get('userData'));",
+              "",
+              "const name = pm.variables.replaceIn(\"{{$randomFullName}}\");",
+              "const email = pm.variables.replaceIn(\"{{$randomEmail}}\");",
+              "const company = pm.variables.replaceIn(\"{{$randomCompanyName}}\");",
+              "",
+              "user.name = name;",
+              "user.email = email;",
+              "user.company.name = company;",
+              "",
+              "pm.collectionVariables.set(\"updatedName\", name);",
+              "pm.collectionVariables.set(\"putBody\", JSON.stringify(user));"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{{putBody}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/users/{{userId}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "pm.collectionVariables.set(\"base_url\", \"https://jsonplaceholder.typicode.com\");"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "key": "userId",
+      "value": ""
+    },
+    {
+      "key": "userData",
+      "value": ""
+    },
+    {
+      "key": "updatedName",
+      "value": ""
+    },
+    {
+      "key": "putBody",
+      "value": ""
+    }
+  ]
+}
