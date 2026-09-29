@@ -25,10 +25,10 @@ This repository contains the full deliverable for the Module 17 assignment, spli
 
 | Area | Tooling |
 |---|---|
-| UI test runner | Playwright Test |
+| UI test runner | **Playwright** Test |
 | UI test design | Page Object Model |
 | UI reporting | Playwright HTML reporter + Allure |
-| API testing | [Postman](https://www.postman.com/) collection, executed via [Newman](https://github.com/postmanlabs/newman) CLI |
+| API testing | **Postman** collection, executed via **Newman** CLI |
 | Runtime | Node.js v20+ |
 
 ---
