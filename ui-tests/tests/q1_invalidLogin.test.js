@@ -28,6 +28,5 @@ test('Invalid login check Successful', async ({ page }) => {
     await pages.login_Button();
     await pages.invalid_EmailPasswordCheck();
 
-    // await page.waitForTimeout(50000);
     await page.pause();
 });
